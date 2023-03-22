@@ -1,55 +1,936 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Thanos JS</title>
-    <link href="styles.css" rel="stylesheet" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="A demo site to use with Netlify Drop" />
-    <meta name="keywords" content="Thanos, JavaScript, Paradoy, Netlify Drop" />
-    <meta name="author" content="Rafael Conde" />
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-  </head>
-  <body>
-    <div class="titan-background">
-      <span class="stars stars-L"></span>
-      <span class="stars stars-M"></span>
-      <span class="stars stars-S"></span>
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kris Srithararajah">
+<meta name="dcterms.date" content="2023-02-09">
+
+<title>Beazley Rate Changes v1.6</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="styles/libs/clipboard/clipboard.min.js"></script>
+<script src="styles/libs/quarto-html/quarto.js"></script>
+<script src="styles/libs/quarto-html/popper.min.js"></script>
+<script src="styles/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="styles/libs/quarto-html/anchor.min.js"></script>
+<link href="styles/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="styles/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="styles/libs/bootstrap/bootstrap.min.js"></script>
+<link href="styles/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="styles/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+        <script type="text/javascript">
+        window.PlotlyConfig = {MathJaxConfig: 'local'};
+        if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+        if (typeof require !== 'undefined') {
+        require.undef("plotly");
+        requirejs.config({
+            paths: {
+                'plotly': ['https://cdn.plot.ly/plotly-2.18.0.min']
+            }
+        });
+        require(['plotly'], function(Plotly) {
+            window._Plotly = Plotly;
+        });
+        }
+        </script>
+        
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data"><span class="toc-section-number">1</span>  Data</a></li>
+  <li><a href="#calculate-new-rates" id="toc-calculate-new-rates" class="nav-link" data-scroll-target="#calculate-new-rates"><span class="toc-section-number">2</span>  Calculate New Rates</a></li>
+  <li><a href="#predicted-impact" id="toc-predicted-impact" class="nav-link" data-scroll-target="#predicted-impact"><span class="toc-section-number">3</span>  Predicted Impact</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="toc-section-number">4</span>  Results</a>
+  <ul class="collapse">
+  <li><a href="#scenario-1-worst-case" id="toc-scenario-1-worst-case" class="nav-link" data-scroll-target="#scenario-1-worst-case"><span class="toc-section-number">4.1</span>  Scenario 1: Worst Case</a></li>
+  <li><a href="#scenario-2-middle-of-the-road" id="toc-scenario-2-middle-of-the-road" class="nav-link" data-scroll-target="#scenario-2-middle-of-the-road"><span class="toc-section-number">4.2</span>  Scenario 2: Middle of the road</a></li>
+  <li><a href="#scenario-3-best-case" id="toc-scenario-3-best-case" class="nav-link" data-scroll-target="#scenario-3-best-case"><span class="toc-section-number">4.3</span>  Scenario 3: Best Case</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Beazley Rate Changes v1.6</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Kris Srithararajah </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 9, 2023</p>
     </div>
-    <div class="marvellous-container">
-      <div class="header">
-        <h1><span class="title-marvel">Netlify</span> <span class="title-studios">from Git</span></h1>
-        <h2 id="app">
-          Continuous Deployment is the best!
-        </h2>
-      </div>
-      <div class="installation-instructions">
-        <h3>Installation</h3>
-        <code>$ gem install power</code>
-        <code>$ gem install reality</code>
-        <code>$ gem install mind</code>
-        <code>$ gem install space</code>
-        <code>$ gem install time</code>
-        <code>$ gem install soul</code>
-      </div>
-      <div class="usage-instructions">
-        <h3>Basic Usage</h3>
-        <code>$ thanos snap-fingers --with-glove</code>
-      </div>
-      <div class="footer">
-        <img
-          src="assets/glove.png"
-          alt="thanos gauntlet but its like the classic emoji hands with an awful photoshop of stupid gems on it, because funny"
-        />
-        <p>
-          This whole site is obviously a parody, <br />
-          just to demo how awesome
-          <a target="_blank" href="https://app.netlify.com/drop">Netlify Drop is — give it a try.</a>
-        </p>
-      </div>
-    </div>
-    <script src="./index.js"></script>
-  </body>
-</html>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="data" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="data"><span class="header-section-number">1</span> Data</h2>
+<p>For this analysis we use data from all of 2022 where the quote has at least one cyber cover with <code>net_premium</code> &gt; 0.</p>
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime, timedelta</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ds_tools.snowflake_access <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Markdown</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">## import Superscript colour scheme</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ds_tools.user_interface <span class="im">import</span> colours</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># get historical quotes</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>quotes <span class="op">=</span> get_data(</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="st">    with bz as (</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="st">        select </span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="st">            *</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="st">        from ANALYTICS_PROD.ANALYTICS_SUPERSUITE.PRICING_OPTIMISATION_DETAILS_BASE</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="st">        where insurer like 'Beazley%'</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="st">            and cover ilike '</span><span class="sc">%c</span><span class="st">yber%'</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="st">            and created_at &gt;= '2022-01-01'</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="st">            and created_at &lt; '2023-01-01'</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="st">            and quote_status in ('Started','Complete','Converted')</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="st">            and cover_limit is not null</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="st">            </span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="st">    ),</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="st">    pod as (</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="st">        select </span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="st">            quote_id,</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="st">            insurer as essentials_insurer,</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="st">            net_premium as total_quoted_premium</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="st">        from ANALYTICS_PROD.ANALYTICS_SUPERSUITE.PRICING_OPTIMISATION_DETAILS</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="st">    )</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="st">    select </span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="st">        a.*, </span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="st">        b.essentials_insurer,</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="st">        b.total_quoted_premium</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="st">    from bz a</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="st">    left join pod b</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="st">        using(quote_id)</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="st">    where b.essentials_insurer is not null</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="ss">f"""</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="ss">This gives us </span><span class="sc">{</span><span class="bu">len</span>(quotes)<span class="sc">}</span><span class="ss"> quotes.</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p>This gives us 3144 quotes.</p>
+</div>
+</div>
+<p>New rates have been defined in <code>rates.csv</code>. We also have new hazard classes in the <code>classes.csv</code>. Both of these were created from the <a href="https://docs.google.com/spreadsheets/d/18CSuKKlaZbIXYOx5Z6WwgEGABoAXafdGrOq34B37FJ0/edit">Cyber Developer Guide</a>.</p>
+<div class="cell" data-execution_count="2">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>classes_df <span class="op">=</span> pd.read_csv(<span class="st">"new_rates/classes.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>rates_df <span class="op">=</span> pd.read_csv(<span class="st">"new_rates/rates.csv"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>rates_df[[<span class="st">"premium"</span>]] <span class="op">=</span> (</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    rates_df[[<span class="st">"premium"</span>]].replace(<span class="st">"[\$,]"</span>, <span class="st">""</span>, regex<span class="op">=</span><span class="va">True</span>).astype(<span class="bu">float</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># to make it easier we first make everything lowercase</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>quotes[<span class="st">"industry_name"</span>] <span class="op">=</span> quotes[<span class="st">"industry_name"</span>].<span class="bu">str</span>.lower()</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>classes_df[<span class="st">"industry_name"</span>] <span class="op">=</span> classes_df[<span class="st">"industry_name"</span>].<span class="bu">str</span>.lower()</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># see how many join on (note we have 508 quotes)</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> quotes.merge(classes_df, how<span class="op">=</span><span class="st">"inner"</span>, on<span class="op">=</span><span class="st">"industry_name"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>We join the <code>rates.csv</code> and <code>classes.csv</code> to our quote data.</p>
+<div class="cell" data-execution_count="3">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="ss">f"""</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ss">We find that of the </span><span class="sc">{</span><span class="bu">len</span>(quotes)<span class="sc">}</span><span class="ss"> quotes, </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss"> match what Beazley have given us. There are a further </span><span class="sc">{</span><span class="bu">len</span>(quotes) <span class="op">-</span> <span class="bu">len</span>(df)<span class="sc">}</span><span class="ss"> quotes with trades in our dataset that are not listed in the Google Sheet.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># drop any that are referred or declined</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[<span class="op">~</span>df[<span class="st">"class"</span>].isin([<span class="st">"Refer"</span>, <span class="st">"Decline"</span>])]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p>We find that of the 3144 quotes, 2162 match what Beazley have given us. There are a further 982 quotes with trades in our dataset that are not listed in the Google Sheet.</p>
+</div>
+</div>
+</section>
+<section id="calculate-new-rates" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="calculate-new-rates"><span class="header-section-number">2</span> Calculate New Rates</h2>
+<p>After replacing the current rates with the new ones as per the industry, turnover and cover limit, we see that:</p>
+<div class="cell" data-execution_count="4">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># group the turnovers into the buckets</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> [<span class="dv">0</span>] <span class="op">+</span> <span class="bu">list</span>(rates_df.turnover.unique())</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"turnover_grouped"</span>] <span class="op">=</span> pd.cut(df[<span class="st">"turnover"</span>], bins)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>rates_df[<span class="st">"turnover_grouped"</span>] <span class="op">=</span> pd.cut(rates_df[<span class="st">"turnover"</span>], bins)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>rates_df <span class="op">=</span> rates_df.drop(columns<span class="op">=</span>[<span class="st">"turnover"</span>])</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># merge it all together</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"cover_limit"</span>] <span class="op">=</span> df[<span class="st">"cover_limit"</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"class"</span>] <span class="op">=</span> df[<span class="st">"class"</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.merge(rates_df, how<span class="op">=</span><span class="st">"inner"</span>, on<span class="op">=</span>[<span class="st">"class"</span>, <span class="st">"turnover_grouped"</span>, <span class="st">"cover_limit"</span>])</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.rename(columns<span class="op">=</span>{<span class="st">"premium"</span>: <span class="st">"new_net_premium"</span>})</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># current BEAZLEY quoted premium</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> df[<span class="st">"net_premium"</span>].mean()</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># current TOTAL quoted premium (cyber + essentials)</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>c2 <span class="op">=</span> df[<span class="st">"total_quoted_premium"</span>].mean()</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># new BEAZLEY quoted premium</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>n1 <span class="op">=</span> df[<span class="st">"new_net_premium"</span>].mean()</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co"># new TOTAL quoted premium</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"new_total_quoted_premium"</span>] <span class="op">=</span> (</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"total_quoted_premium"</span>] <span class="op">-</span> df[<span class="st">"net_premium"</span>] <span class="op">+</span> df[<span class="st">"new_net_premium"</span>]</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>n2 <span class="op">=</span> df[<span class="st">"new_total_quoted_premium"</span>].mean()</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>df_plot <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>df_plot[<span class="st">"Premium Type"</span>] <span class="op">=</span> [<span class="st">"Cyber Net Premium"</span>, <span class="st">"Total Net Premium"</span>]</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>df_plot[<span class="st">"Current (£)"</span>] <span class="op">=</span> np.<span class="bu">round</span>([c1, c2], <span class="dv">2</span>)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>df_plot[<span class="st">"New (£)"</span>] <span class="op">=</span> np.<span class="bu">round</span>([n1, n2], <span class="dv">2</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>df_plot.set_index(<span class="st">"Premium Type"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="70">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Current (£)</th>
+      <th>New (£)</th>
+    </tr>
+    <tr>
+      <th>Premium Type</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Cyber Net Premium</th>
+      <td>160.21</td>
+      <td>565.29</td>
+    </tr>
+    <tr>
+      <th>Total Net Premium</th>
+      <td>474.48</td>
+      <td>879.56</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_plot1 <span class="op">=</span> df[[<span class="st">"total_quoted_premium"</span>]].rename(columns<span class="op">=</span>{<span class="st">"total_quoted_premium"</span>:<span class="st">"Total Quoted Premium"</span>})</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df_plot1[<span class="st">"Rates"</span>] <span class="op">=</span> <span class="st">"Current"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df_plot2 <span class="op">=</span> df[[<span class="st">"new_total_quoted_premium"</span>]].rename(columns<span class="op">=</span>{<span class="st">"new_total_quoted_premium"</span>:<span class="st">"Total Quoted Premium"</span>})</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>df_plot2[<span class="st">"Rates"</span>] <span class="op">=</span> <span class="st">"New"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>df_plot <span class="op">=</span> pd.concat([df_plot1,df_plot2])</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>df_plot <span class="op">=</span> df_plot[df_plot[<span class="st">"Total Quoted Premium"</span>]<span class="op">&lt;</span><span class="dv">5000</span>]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># plotly graph</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.histogram(df_plot, x<span class="op">=</span><span class="st">"Total Quoted Premium"</span>, color<span class="op">=</span><span class="st">"Rates"</span>, title<span class="op">=</span><span class="st">"Distribution of New Rates"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>fig.update_layout(barmode<span class="op">=</span><span class="st">'overlay'</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>fig.update_traces(opacity<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+
+<div>                            <div id="5a76b573-c3ab-44f8-a287-57320c22c1c3" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("5a76b573-c3ab-44f8-a287-57320c22c1c3")) {                    Plotly.newPlot(                        "5a76b573-c3ab-44f8-a287-57320c22c1c3",                        [{"alignmentgroup":"True","bingroup":"x","hovertemplate":"Rates=Current<br>Total Quoted Premium=%{x}<br>count=%{y}<extra></extra>","legendgroup":"Current","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"Current","offsetgroup":"Current","orientation":"v","showlegend":true,"x":[371.76,391.08,184.08,468.84,210.6,144.96,295.68,157.2,165.24,83.76,262.2,571.8,154.2,326.52,450.36,98.76,328.92,528.24,83.76,248.28,192.6,176.64,139.68,143.28,185.04,262.68,121.92,247.68,398.76,662.4,98.76,220.44,126.36,557.04,162.48,83.76,83.76,83.76,92.16,392.88,204.6,230.76,143.04,83.76,243.96,546.72,198.72,553.8,1394.4,212.28,483.96,2365.92,240.6,145.44,198.36,751.68,92.16,168.24,92.16,201.48,235.68,107.16,1438.2,607.8,92.16,791.04,83.76,431.64,139.68,92.16,92.16,145.44,92.16,182.76,83.76,92.16,83.76,92.16,130.44,83.76,145.92,107.16,148.68,190.2,92.16,83.76,83.76,83.76,83.76,83.76,655.92,529.32,136.68,338.88,249.36,83.76,83.76,1389.48,1452.0,107.16,278.28,397.44,358.8,1654.32,1150.2,494.4,156.72,150.24,602.76,374.04,92.16,423.48,343.92,477.6,303.72,736.56,107.16,83.76,1703.28,107.16,425.28,253.2,192.96,92.16,385.92,830.52,83.76,168.84,177.12,874.56,787.92,177.96,1538.04,683.88,210.84,315.6,109.92,109.92,99.84,140.88,163.56,177.48,170.52,454.2,219.0,174.48,99.84,270.6,426.36,504.84,161.16,177.24,504.12,391.44,176.16,1434.84,161.16,161.16,1134.6,426.96,365.16,782.16,471.12,1006.56,923.04,218.28,161.16,161.16,347.64,161.16,411.12,176.16,176.16,255.24,353.4,480.48,155.88,134.64,211.32,295.56,391.44,457.8,401.64,395.16,768.84,171.48,1060.2,516.24,428.04,370.8,357.72,303.96,377.16,349.68,282.6,823.8,621.84,440.88,380.04,483.0,485.28,825.24,445.8,83.76,302.28,256.8,265.68,286.56,573.0,297.96,367.56,540.12,225.84,234.36,1572.36,238.32,1392.12,525.36,153.96,130.56,309.36,570.48,192.24,192.24,120.12,885.12,115.56,329.52,525.36,698.76,128.88,702.48,325.32,377.76,105.12,176.4,225.36,419.76,599.28,326.28,638.04,369.0,375.12,105.12,435.72,408.24,263.52,376.08,105.12,253.08,761.28,593.4,404.28,338.28,407.52,520.2,378.6,930.12,930.12,327.84,879.72,186.72,186.72,384.24,181.08,1030.8,282.72,105.12,698.76,208.08,299.28,256.8,456.0,356.88,761.04,455.4,266.28,1208.28,1225.56,428.4,2993.76,1078.92,767.76,1003.56,948.48,642.0,576.6,1328.52,371.52,1008.6,921.36,1235.28,628.68,637.92,1015.44,415.68,177.24,177.24,724.32,1422.0,412.56,666.12,177.24,637.08,1791.24,898.08,391.92,503.4,709.92,679.44,560.64,747.48,399.84,177.24,525.84,662.04,724.56,911.28,513.96,514.2,300.48,315.48,352.68,161.16,361.56,1041.72,145.44,202.32,237.6,275.76,321.12,226.8,424.68,213.6,162.72,529.92,300.48,276.96,231.0,195.6,117.48,286.2,194.52,235.92,439.2,355.44,162.72,225.48,372.96,276.24,2051.88,330.6,538.32,92.16,263.4,240.72,246.6,204.0,191.52,163.2,292.08,392.28,196.56,92.16,460.32,289.44,258.96,213.12,145.44,648.6,206.16,461.64,806.28,189.12,166.08,395.16,119.52,171.12,227.28,155.28,854.76,154.32,384.6,214.56,275.28,206.28,192.24,461.76,174.36,246.24,145.44,327.72,442.92,177.72,169.32,245.04,162.72,347.64,177.84,134.64,122.4,211.32,200.28,184.8,758.76,83.76,272.16,236.4,83.76,107.16,150.48,674.52,505.68,125.4,148.32,390.48,320.64,92.16,323.76,92.16,308.76,344.04,345.6,98.76,717.24,308.76,308.76,308.76,329.04,353.88,300.36,1750.2,329.04,382.2,83.76,107.16,300.36,329.04,98.76,405.72,98.76,308.76,300.36,315.36,329.04,300.36,83.76,83.76,522.12,315.36,400.8,320.64,239.88,445.2,308.76,83.76,308.76,300.36,300.24,92.16,83.76,349.08,83.76,308.76,358.8,315.36,320.64,323.76,522.84,324.84,98.76,83.76,308.76,83.76,308.76,323.76,294.0,483.84,308.76,83.76,983.52,153.84,92.16,217.92,107.16,358.92,323.76,308.76,447.48,344.04,107.16,335.64,519.48,323.76,300.36,168.84,329.04,430.32,328.92,243.96,372.96,344.04,300.36,300.36,377.04,385.44,308.76,83.76,697.08,98.76,330.12,208.32,153.84,98.76,259.56,208.32,204.96,447.48,343.08,83.76,508.56,162.72,362.52,203.52,179.16,699.12,162.72,191.52,429.0,250.32,172.32,220.08,211.32,199.44,247.44,417.84,230.04,183.6,289.56,444.12,472.32,265.2,194.88,267.36,177.72,326.16,284.52,237.24,359.04,302.16,147.24,397.8,263.64,98.76,161.4,83.76,127.2,107.16,83.76,83.76,83.76,107.16,83.76,195.36,163.44,186.84,83.76,166.92,341.52,166.8,166.68,92.16,231.84,171.84,166.8,210.48,166.8,195.48,83.76,166.8,315.36,217.2,178.68,143.4,143.28,143.4,151.8,143.4,204.96,247.44,187.08,151.92,178.68,166.8,92.16,151.92,195.48,166.8,83.76,151.8,171.84,151.68,210.48,171.84,955.8,297.48,567.36,543.84,143.28,222.48,212.16,404.28,741.84,83.76,143.4,151.8,143.4,83.76,323.76,151.8,83.76,143.4,151.92,171.84,151.8,151.92,171.84,202.32,186.84,166.8,308.52,143.28,202.08,178.56,204.6,92.16,163.44,185.16,143.52,151.92,143.4,176.52,163.44,151.8,370.44,247.44,166.68,362.52,624.48,193.56,217.2,255.84,151.92,143.4,395.52,151.8,143.4,168.84,323.76,512.64,151.08,135.84,142.44,115.56,83.76,244.92,215.52,98.76,225.48,98.76,83.76,224.16,196.92,141.96,294.36,288.96,251.4,225.48,234.36,83.76,153.84,313.44,323.52,258.6,315.6,83.76,341.76,229.68,291.48,206.16,227.76,291.48,267.96,221.28,291.36,283.08,107.16,458.76,491.28,268.08,98.76,521.4,83.76,280.68,83.76,83.76,357.12,83.76,83.76,384.6,145.44,220.44,229.08,148.68,232.2,92.16,295.08,204.24,178.32,185.16,133.32,240.6,162.72,174.48,236.64,162.6,83.76,83.76,266.64,92.16,174.24,245.04,236.64,345.0,166.2,303.48,260.76,207.84,315.84,237.6,278.4,142.68,227.4,220.56,272.88,599.76,308.76,340.8,203.16,292.68,221.16,273.72,177.12,1335.84,183.24,178.8,861.24,922.56,927.6,237.0,293.16,276.24,222.12,207.12,221.4,92.16,353.16,221.28,206.4,263.64,244.08,238.92,189.0,349.32,240.72,223.8,182.4,188.88,533.64,92.16,554.28,226.68,408.48,210.36,192.12,155.52,299.88,168.84,384.48,381.24,213.6,261.48,587.16,177.6,186.0,83.76,238.8,289.32,133.2,120.48,174.0,263.88,411.6,225.72,83.76,166.56,164.04,160.08,179.76,150.36,98.76,152.16,281.04,194.04,83.76,200.52,227.4,505.68,266.28,408.48,107.16,156.84,107.16,203.88,255.24,228.96,298.92,240.72,242.4,107.16,274.92,238.92,300.48,199.2,229.68,182.4,238.92,197.28,173.88,240.6,223.92,173.88,265.68,144.24,176.76,177.6,351.84,351.84,351.84,351.84,245.52,276.96,269.64,769.8,526.44,135.84,408.96,268.2,237.0,207.0,221.4,206.4,218.4,92.16,239.4,500.16,221.16,521.64,154.32,162.72,216.24,248.04,305.64,172.8,188.16,142.68,150.24,83.76,196.2,273.12,329.28,162.84,233.88,83.76,177.72,180.48,215.4,228.12,422.52,257.4,230.16,401.76,273.12,188.88,237.12,221.52,236.16,300.96,834.12,164.76,391.2,92.16,225.6,290.4,123.84,298.32,221.16,215.52,214.56,83.76,223.92,173.88,238.92,275.4,107.16,274.68,230.52,240.6,173.88,566.04,98.76,242.4,235.68,512.4,276.48,92.16,239.04,228.72,457.68,98.76,271.8,366.72,309.24,380.16,378.0,186.72,447.0,271.8,206.4,539.16,420.6,394.2,519.6,317.64,532.2,469.08,479.28,942.84,328.68,523.32,202.92,366.0,294.0,488.88,499.08,299.28,796.08,353.76,393.96,627.72,488.4,536.28,403.08,221.28,186.72,575.76,378.24,394.2,227.16,667.8,490.8,229.68,390.36,317.64,964.08,438.24,317.52,153.84,1085.4,1350.84,98.76,323.76,499.2,501.0,293.28,300.36,333.84,548.88,165.6,300.36,579.24,83.76,308.76,107.16,397.32,377.04,197.64,867.84,499.2,405.6,212.64,347.04,291.24,83.76,394.68,407.64,977.76,391.68,570.36,1279.92,195.0,422.76,379.2,83.76,208.08,255.72,92.16,271.2,2032.32,83.76,593.04,83.76,455.04,599.76,149.52,277.32,302.28,151.2,304.56,124.8,92.16,305.16,229.68,212.64,412.56,857.64,604.32,588.48,442.44,218.16,496.2,340.44,486.72,221.28,229.68,422.52,361.44,254.76,332.64,262.08,313.68,238.44,2553.12,435.72,232.8,342.6,291.36,206.28,660.0,164.76,401.4,436.68,298.68,273.12,83.76,423.36,205.68,521.4,1209.0,219.0,219.0,371.64,270.72,255.72,335.64,267.84,126.72,304.32,300.6,494.76,241.2,392.52,200.28,518.28,242.28,438.96,240.6,522.48,767.28,285.48,1755.0,230.4,98.76,499.92,353.16,191.28,232.2,710.52,99.84,249.24,244.92,318.48,335.52,1020.12,252.0,340.2,366.12,247.08,406.68,1161.12,227.88,286.92,125.4,423.84,736.08,324.72,342.96,642.84,492.12,398.52,1792.68,578.76,1447.2,635.52,1853.64,3061.44,572.16,966.72,734.76,950.88,4116.36,3892.68,2974.92,1428.84,1535.4,360.6,1470.72,1704.84,1170.72,1535.64,1543.56,1201.68,1119.6,1373.04,2987.4,4064.04,540.84,594.84,1039.44,899.04,723.0,950.04,841.68,1217.04,422.88,316.8,488.4,677.88,513.12,559.92,811.8,694.32,613.08,640.56,278.64,370.2,626.28,528.36,522.96,814.2,281.88,153.0,671.16,122.4,210.24,585.48,402.6,734.88,1017.24,441.12,395.4,154.08,574.2,622.68,533.4,417.6,721.08,890.88,695.64,963.24,583.44,516.72,634.2,1002.12,1273.8,728.16,472.56,696.48,302.88,741.48,1069.32,1465.56,771.24,970.08,1273.32,177.24,556.68,833.64,544.32,390.0,833.64,866.04,377.76,597.24,176.16,729.12,558.36,543.72,176.16,417.48,192.24,608.28,292.44,345.72,444.12,490.92,586.44,543.72,608.64,370.32,302.88,360.84,426.12,192.24,477.6,492.84,362.28,284.4,1113.24,1369.8,308.88,602.88,491.28,296.4,620.76,298.8,425.52,2955.84,355.32,311.88,1033.08,431.76,329.04,756.12,614.52,471.24,170.16,3287.64,768.36,790.08,1218.72,612.96,719.04,893.28,856.32,886.68,960.96,877.92,307.08,451.44,546.6,443.4,202.92,962.04,592.08,1406.64,1199.04,846.6,177.72,513.84,797.64,903.72,483.12,839.28,630.0,742.56,297.48,976.08,564.24,2053.08,2485.56,1778.88,2351.64,3324.96,739.68,521.28,549.36,441.6,441.36,237.0,651.48,375.0,174.6,325.2,362.52,1273.32,1273.32,1273.32,1273.32,264.12,276.96,538.44,666.12,342.36,591.48,444.12,414.84,579.48,449.64,468.96,430.8,344.52,441.48,318.84,388.92,452.16,292.8,717.84,485.52,386.52,399.12,641.64,641.64,396.84,811.08,448.2,318.84,593.04,751.32,508.8,508.8,374.28,439.2,386.52,529.08,480.96,362.52,510.36,491.28,344.16,660.0,547.68,350.16,205.92,220.68,381.36,209.76,314.52,400.32,803.76,220.68,302.76,187.32,272.16,197.04,820.08,209.16,467.88,189.6,191.52,1104.0,250.08,303.96,244.92,293.88,570.6,364.44,298.92,231.48,122.4,258.0,259.92,462.6,513.24,691.32,177.0,413.64,451.68,283.2,302.28,372.36,226.2,459.84,245.04,538.44,249.48,413.16,690.6,272.28,209.76,415.92,1723.2,647.28,2042.04,2011.2,995.28,2087.88,1513.44,1762.2,1850.76,2268.72,1126.08,2006.88,4136.52,1031.4,1268.52,958.56,1065.84,207.24,484.92,134.64,424.68,134.64,500.04,485.04,785.16,225.36,682.32,848.88,342.72,746.88,134.64,304.92,651.12,237.6,439.2,399.36,499.92,675.12,333.96,494.76,808.32,671.16,276.12,493.08,275.88,745.68,1248.12,494.04,441.36,718.44,483.12,149.64,255.12,189.6,415.92,250.08,433.2,149.64,439.32,217.08,397.56,149.64,354.72,574.08,285.36,521.28,521.28,675.36,675.36,245.04,351.24,578.16,952.32,219.24,444.36,681.12,380.76,830.76,362.52,402.36,488.76,787.44,326.16,99.84,362.52,241.44,172.32,143.52,586.44,243.36,852.84,407.52,337.2,408.6,294.96,368.04,598.2,258.84,248.16,348.24,417.72,269.76,284.04,377.52,189.48,177.72,532.32,359.64,99.84,254.64,501.96,99.84,527.04,283.32,223.44,326.52,326.52,361.8,346.8,385.32,341.52,691.56,212.76,288.0,160.68,151.56,221.88,248.16,159.48,255.0,159.48,221.52,159.6,504.96,504.96,274.2,228.48,626.04,124.92,205.2,309.96,124.92,318.12,312.72,109.92,388.8,486.6,109.92,294.24,156.12,99.84,274.32,337.2,251.16,189.96,319.08,180.36,227.88,114.84,221.4,204.96,243.36,287.04,1172.52,890.88,829.92,1247.4,486.96,1701.0,1060.68,706.44,221.4,250.92,377.52,604.44,638.16,899.16,669.12,1168.2,747.48,731.28,704.28,916.08,837.72,364.68,322.8,2239.44,231.12,764.28,342.12,210.12,1099.44,409.92,1075.2,875.76,411.72,455.4,673.56,495.24,602.88,473.28,348.36,478.56,675.24,301.56,896.52,896.52,577.08,594.72,489.96,811.32,1362.6,655.44,981.96,1674.84,1032.12,1285.44,509.04,390.48,410.52,1272.0,1558.44,901.8,961.08,3060.48,561.72,1483.68,1811.4,501.0,546.84,485.64,652.32,375.12,1095.6,885.96,1867.8,2287.08,2497.92,2039.76,1008.84,1392.72,4607.76,480.0,3281.76,891.84,700.44,1800.0,1048.56,1680.84,2215.44,1784.64,945.84,1495.92,551.88,698.88,940.44,3494.52,1055.04,1055.04,857.4,418.68,499.92,382.44,629.52,326.28,377.52,415.92,530.4,237.6,421.44,318.0,151.2,596.04,207.36,286.68,265.68,239.4,189.84,162.72,199.68,214.44,822.48,222.0,196.92,377.4,162.72,225.0,239.76,326.28,244.2,289.2,338.52,83.76,383.28,349.32,171.12,338.52,353.4,555.96,315.24,234.48,410.16,239.4,405.72,230.16,254.76,309.84,419.16,159.84,229.2,362.52,107.16,165.48,371.04,257.88,180.12,391.44,324.12,173.64,463.56,372.36,195.12,480.48,504.12,370.56,420.0,204.96,219.12,637.08,255.12,265.68,500.76,377.64,294.36,382.2,420.72,193.08,332.52,242.52,990.24,309.12,441.96,375.48,439.92,535.56,508.56,333.72,263.52,122.4,266.04,122.4,351.96,199.08,1598.52,1279.92,1616.76,314.64,255.12,233.52,1140.12,497.88,466.44,184.92,575.16,319.92,496.32,686.88,642.72,377.76,262.8,242.16,209.64,534.36,1143.0,578.28,461.88,890.4,227.76,763.32,1127.88,1595.28,430.44,1501.92,2086.56,1838.76,1286.64,690.0,1046.16,2861.88,1596.96,1232.04,873.24,941.88,1766.76,569.52,198.84,904.92,241.2,229.8,377.52,487.32,329.88,137.4,168.36,271.44,170.64,190.32,98.76,131.76,563.76,233.64,107.16,92.16,237.72,166.8,277.08,192.24,355.92,299.4,349.44,594.24,456.72,337.92,609.48,452.28,308.64,1548.84,454.32,334.32,202.32,174.6,160.32,230.52,83.76,180.12,83.76,121.92,146.04,157.2,98.76,98.76,661.68,230.16,840.12,99.84,295.08,188.16,122.4,181.8,576.36,325.32,281.04,265.44,176.04,525.24,461.88,555.24,323.28,291.36,276.24,614.88,386.16,464.04,312.96,427.32,309.0,418.44,310.2,275.64,645.6,321.72,333.72,226.56,292.8,824.04,83.76,295.44,236.88,892.8,179.28,269.16,519.36,154.32,125.76,257.88,615.96,249.84,206.4,321.48,531.12,1167.96,486.36,1294.2,408.36,644.88,509.04,486.72,914.52,1125.96,256.8,507.6,257.52,1016.28,705.24,1165.32,592.92,549.12,247.32,307.68,239.52,849.24,925.68,420.72,222.0,228.24,173.04,122.4,190.8,244.2,122.4,122.4,122.4,122.4,570.48,573.96,161.16,268.44,344.64,177.24,161.16,1397.28,177.24,290.88,636.24,598.08,418.68,598.08,479.52,653.88,1659.72,126.0,1453.32,2095.68,503.16,83.76,1457.52,1373.4,1076.4,794.16,3656.88,1387.92,98.76,681.84,1370.52,130.56,160.44,1094.52,92.16,2605.92,477.0,408.48,514.2,599.4,128.76,153.96,474.96,320.64,210.24,157.8,168.84,599.76,254.28,92.16,83.76,323.76,273.12,240.6,359.88,532.56,307.8,452.52,954.36,161.16,422.16,240.84,238.8,492.36,245.76,138.0,260.52,340.32,1133.76,366.84,461.52,272.04,289.92,3659.4,221.16,479.52,243.24,286.68,161.16,776.52,177.24,871.8,1267.92,1130.88,221.88,3162.72,332.16,903.24,507.36,909.96,277.08,340.56,325.32,679.44,543.96,476.16,1834.92,1812.6,183.72,4620.96,1124.76],"xaxis":"x","yaxis":"y","type":"histogram","opacity":0.5},{"alignmentgroup":"True","bingroup":"x","hovertemplate":"Rates=New<br>Total Quoted Premium=%{x}<br>count=%{y}<extra></extra>","legendgroup":"New","marker":{"color":"#EF553B","pattern":{"shape":""}},"name":"New","offsetgroup":"New","orientation":"v","showlegend":true,"x":[429.89,449.2099999999999,242.21,526.9699999999999,268.73,211.49,362.21000000000004,223.72999999999996,223.37,150.29,320.33,638.3299999999999,220.72999999999996,384.65,508.49,165.29,395.45000000000005,586.37,150.29,314.80999999999995,250.73,243.16999999999996,206.20999999999998,209.81,251.57,329.21000000000004,188.45,305.81,456.89,720.53,165.29,278.57,184.49,615.17,229.01,150.29,150.29,150.29,150.29,459.40999999999997,262.73,288.89,209.57,150.29,302.09000000000003,613.25,256.85,620.3299999999999,1452.53,278.80999999999995,550.49,2424.05,307.13,211.96999999999997,256.49,818.2099999999999,150.29,234.76999999999998,150.29,268.01,302.21000000000004,165.29,1496.33,665.93,150.29,849.17,150.29,498.16999999999996,206.20999999999998,150.29,150.29,211.96999999999997,150.29,240.89,150.29,150.29,150.29,150.29,196.96999999999997,150.29,212.45,165.29,206.81,256.72999999999996,150.29,150.29,150.29,150.29,150.29,150.29,714.05,587.45,194.81,405.40999999999997,307.49,150.29,150.29,1447.61,1510.1299999999999,165.29,336.40999999999997,455.56999999999994,416.92999999999995,1720.85,1208.33,552.53,214.85,208.37,660.89,432.16999999999996,150.29,481.61,410.45000000000005,544.13,370.25,803.0899999999999,165.29,150.29,1761.4099999999999,165.29,483.40999999999997,311.33,259.49,150.29,444.04999999999995,618.29,150.29,226.97,243.64999999999998,943.76,867.1999999999999,247.16000000000003,1607.2399999999998,753.08,280.04,394.88,179.12,179.12,179.12,220.16,242.84,246.68,249.8,523.4,288.2,253.76,179.12,2578.88,2750.7200000000003,2813.12,2485.52,2485.52,2812.4,2715.8,2500.52,3743.12,2485.52,2485.52,3442.88,2751.3199999999997,2689.52,3106.52,2795.48,3330.92,3231.3199999999997,2526.56,2485.52,2485.52,2655.92,2485.52,2719.4,2500.52,2500.52,2579.6,2661.68,565.35,252.98999999999998,219.51,296.19,380.43,487.72999999999996,562.49,497.93,491.45,865.1300000000001,276.16999999999996,1107.65,608.21,524.3299999999999,475.49,454.01000000000005,395.45,473.45,445.96999999999997,387.29,915.29,718.1300000000001,545.5699999999999,476.33,579.29,581.5699999999999,894.4100000000001,542.0899999999999,188.45,398.56999999999994,353.09000000000003,370.37,382.85,677.69,394.25,472.25,565.6099999999999,305.93,339.05,1677.05,321.65,1455.29,608.69,188.45,203.45,405.05,643.37,265.13,265.13,203.45,958.01,188.45,425.21,608.69,747.1700000000001,203.45,775.3700000000001,398.21,426.28999999999996,188.45,249.29,321.65,503.09,672.17,409.60999999999996,721.3699999999999,441.89,448.01,188.45,498.89000000000004,471.41,336.40999999999997,448.96999999999997,188.45,325.97,834.1700000000001,676.73,487.60999999999996,401.44999999999993,480.40999999999997,593.09,451.49,1013.45,1013.45,400.72999999999996,952.6100000000001,291.40999999999997,291.40999999999997,457.13,253.97,1103.69,355.61,188.45,771.6500000000001,291.40999999999997,372.16999999999996,329.69,490.48999999999995,391.37,833.9300000000001,528.29,339.16999999999996,1498.53,1323.45,567.69,3228.4500000000003,1226.73,1081.89,1364.85,1242.5700000000002,844.8900000000001,844.8900000000001,1642.53,732.8100000000001,1211.49,1235.3700000000001,1448.97,842.37,851.61,1229.13,567.69,2982.62,2982.62,3529.7,4227.38,3234.02,3105.02,2982.62,3310.7,4596.62,3703.46,3213.38,3308.7799999999997,3515.2999999999997,3484.8199999999997,3366.02,3552.8599999999997,3221.2999999999997,2982.62,3331.22,3483.5,3529.9399999999996,3716.66,3319.34,3319.58,3105.8599999999997,3120.8599999999997,3174.14,2982.62,3166.94,3863.18,211.96999999999997,268.84999999999997,304.13,333.89,387.65,284.93,482.80999999999995,280.13,220.85,596.4499999999999,358.61,335.09,297.53,262.13,184.01,344.33,252.65,294.04999999999995,497.3299999999999,421.97,220.85,283.61,431.0899999999999,334.37,2110.01,388.73,596.45,150.29,321.53,307.25,313.13,270.53,258.05,229.72999999999996,358.61,450.40999999999997,254.69,150.29,518.4499999999999,355.97,325.49,271.25,211.96999999999997,619.85,272.69,519.77,594.05,255.64999999999998,232.61,461.69000000000005,186.04999999999998,237.64999999999998,285.40999999999997,221.81,921.29,220.84999999999997,451.13,272.69,341.80999999999995,272.81,258.77,519.89,240.89,312.77,211.96999999999997,385.85,230.69000000000003,235.85,235.84999999999997,303.16999999999996,220.85,405.77,235.97,201.16999999999996,188.93,269.45,266.81,242.93,816.89,150.29,330.29,294.53,150.29,165.29,217.01,732.65,563.81,191.93,214.84999999999997,448.61,387.16999999999996,150.29,381.89,150.29,366.89,402.17,403.73,165.29,775.37,366.89,366.89,366.89,387.17,412.01,366.89,1808.33,387.17,448.73,150.29,165.29,366.89,387.17,165.29,463.85,165.29,366.89,366.89,381.89,387.17,366.89,150.29,150.29,580.25,381.89,458.92999999999995,387.16999999999996,306.40999999999997,503.3299999999999,366.89,150.29,366.89,366.89,366.77,150.29,150.29,407.2099999999999,150.29,366.89,416.92999999999995,381.89,387.16999999999996,381.89,580.97,391.37,165.29,150.29,366.89,150.29,366.89,381.89,352.13,541.9699999999999,366.89,150.29,1050.05,211.97,150.29,276.04999999999995,165.29,417.04999999999995,381.89,366.89,514.01,402.17,165.29,402.16999999999996,586.01,381.89,366.89,226.97,387.17,496.85,387.05,302.09000000000003,439.49,402.17,366.89,366.89,443.57000000000005,443.56999999999994,366.89,150.29,484.85,165.29,388.25,274.84999999999997,211.97,165.29,317.69,274.84999999999997,263.09000000000003,505.61,401.21,150.29,575.09,220.85,420.65,270.05,237.29,765.65,220.85,249.65,495.53,316.85,230.45,278.21000000000004,269.45,257.57,305.57,475.9699999999999,288.16999999999996,241.73,347.69,502.25,538.85,323.33,261.40999999999997,325.49,235.85,392.69000000000005,351.04999999999995,295.37,425.57000000000005,368.69000000000005,205.37,455.92999999999995,321.77,165.29,219.53,150.29,193.73,165.29,150.29,150.29,150.29,165.29,150.29,261.89,229.96999999999997,244.97,150.29,225.04999999999998,399.65,224.93,224.81,150.29,298.37,229.97,224.93,268.61,224.93,253.60999999999999,150.29,224.93,381.89,275.33,236.81,209.93,209.81,209.93,209.93,209.93,263.09000000000003,313.97,245.21,210.04999999999998,236.81,224.93,150.29,210.04999999999998,253.60999999999999,224.93,150.29,209.93,229.97,209.81,268.61,229.97,1022.3299999999999,355.61,625.49,610.37,209.81,280.61,278.68999999999994,400.60999999999996,808.37,150.29,209.93,209.93,209.93,150.29,381.89,209.93,150.29,209.93,210.04999999999998,229.97,209.93,210.04999999999998,229.97,260.45,244.97,224.93,366.65,209.81,268.61,236.69,271.13,150.29,229.96999999999997,251.69,210.05,210.04999999999998,209.93,234.65,229.96999999999997,209.93,428.56999999999994,313.97,224.81,150.29,691.01,251.69,275.33,313.97,210.04999999999998,209.93,453.65,209.93,209.93,226.97,381.89,570.77,209.21,193.97,208.96999999999997,150.29,150.29,303.04999999999995,282.04999999999995,165.29,283.61,165.29,150.29,282.28999999999996,255.04999999999998,208.49,360.89,355.49,317.92999999999995,292.01,300.89,150.29,211.97,371.57,390.04999999999995,325.13,373.73,150.29,399.89,287.81,349.61,272.69,285.89,349.61,334.49,287.80999999999995,349.49,349.61,165.29,516.89,557.81,326.21,165.29,579.53,150.29,338.81,150.29,150.29,415.25,150.29,150.29,442.73,211.96999999999997,286.97,295.61,206.81,298.73,150.29,353.21,262.37,236.45,243.29,199.84999999999997,298.73,220.85,232.60999999999999,303.16999999999996,220.73,150.29,150.29,324.77,150.29,232.37,303.16999999999996,303.16999999999996,403.13,232.72999999999996,370.01,318.89,274.37,373.96999999999997,295.73,336.53,209.20999999999998,285.53,278.69,331.01,657.89,375.28999999999996,407.33000000000004,269.69,350.81,287.68999999999994,331.85,243.64999999999998,1402.37,249.76999999999998,236.93,919.37,980.6899999999999,985.73,295.13,351.29,334.37,288.65,273.65,287.92999999999995,150.29,411.28999999999996,279.40999999999997,272.93,330.16999999999996,302.21000000000004,305.44999999999993,255.52999999999997,407.44999999999993,298.85,281.93,240.53,255.40999999999997,600.17,150.29,342.04999999999995,284.81,466.61,268.49,258.65,213.65,366.40999999999997,226.97,451.01,447.77,280.13,328.01,653.6899999999999,235.73,244.13,150.29,296.93,355.85,199.72999999999996,187.01,240.52999999999997,322.01,469.73,283.85,150.29,224.69,222.17,218.21,237.89,216.89,165.29,210.29,347.57000000000005,252.17,150.29,267.05,293.92999999999995,563.81,332.80999999999995,475.01,165.29,214.97,165.29,262.01,313.37,287.09000000000003,357.05,298.85,300.53,165.29,333.05,297.04999999999995,358.61,265.72999999999996,296.21000000000004,240.53,297.04999999999995,255.41,240.40999999999997,298.73,282.04999999999995,240.40999999999997,323.81,202.37,243.28999999999996,244.13,409.9699999999999,418.37,409.9699999999999,418.37,303.65,343.49,327.77,827.93,584.57,202.37,467.0899999999999,326.33,295.13,273.53,287.92999999999995,272.93,276.53,150.29,297.53,287.93000000000006,287.68999999999994,579.77,220.84999999999997,220.85,274.37,314.56999999999994,363.77,230.93,254.69,209.20999999999998,208.37,150.29,262.72999999999996,331.25,387.40999999999997,220.97,300.40999999999997,150.29,235.85,247.01,281.92999999999995,294.65,404.33,315.53,288.28999999999996,459.89,331.25,255.40999999999997,295.25,279.65,302.68999999999994,367.49,892.25,231.28999999999996,449.3299999999999,150.29,283.73,348.53,190.37,356.45,287.68999999999994,273.65,272.69,150.29,282.04999999999995,240.40999999999997,297.04999999999995,333.53,165.29,332.81,297.04999999999995,298.73,240.40999999999997,632.5699999999999,165.29,300.53,293.81,578.93,334.61,150.29,297.16999999999996,295.25,245.45000000000002,165.29,329.93,424.85,375.77,438.28999999999996,436.13,253.25,513.53,329.93,272.93,597.29,478.73,452.3299999999999,577.73,384.16999999999996,598.73,527.2099999999999,545.81,930.17,395.21000000000004,589.85,261.04999999999995,424.13,352.13,547.01,557.2099999999999,365.80999999999995,854.21,411.89,460.49,685.85,546.53,602.81,190.85,287.80999999999995,253.25,633.89,444.77,452.3299999999999,285.28999999999996,734.3299999999999,557.33,287.81,456.89,375.77,1030.6100000000001,504.77,375.65,211.97,1143.5300000000002,1408.9699999999998,165.29,381.89,557.3299999999999,559.13,359.80999999999995,366.89,391.96999999999997,607.01,232.13,366.89,637.37,150.29,366.89,165.29,463.85,443.57000000000005,255.76999999999998,925.97,557.3299999999999,463.73,270.77,405.17,349.37,150.29,452.80999999999995,465.77,1035.89,449.80999999999995,628.49,1338.05,261.53,489.28999999999996,437.3299999999999,150.29,274.61,313.85,150.29,329.33,2098.85,150.29,651.17,150.29,521.57,657.89,216.05,335.45,360.40999999999997,217.72999999999996,371.09000000000003,191.32999999999998,150.29,371.69000000000005,287.81,270.77,470.68999999999994,915.77,662.45,646.61,508.97,276.28999999999996,554.3299999999999,398.57,544.85,287.80999999999995,287.81,489.04999999999995,419.56999999999994,312.89,390.77,320.21,371.81,304.97,2611.25,493.85,290.93,409.13,349.49,272.81,718.13,231.28999999999996,467.92999999999995,494.80999999999995,356.81,331.25,150.29,481.49,272.21,587.93,1267.1299999999999,277.13,277.13,438.16999999999996,337.25,313.85,402.16999999999996,334.37,184.85,370.85,358.73,561.29,307.73,450.65,258.40999999999997,584.81,300.40999999999997,497.0899999999999,298.73,580.61,825.41,343.61,1813.1299999999999,288.53,165.29,566.45,411.28999999999996,249.41,298.73,793.1500000000001,224.95,347.47,354.66999999999996,433.51,450.54999999999995,1135.15,377.11,465.30999999999995,481.15,366.90999999999997,515.95,1202.11,342.90999999999997,362.35,224.95,510.78999999999996,811.51,424.15000000000003,418.39,729.79,531.19,473.94999999999993,2405.96,1034.48,2004.44,1282.16,2188.52,3570.92,1054.52,1660.04,1034.48,1034.48,4472.719999999999,4310.719999999999,4037.06,4057.46,2997.62,4004.18,4373.299999999999,3807.74,4172.66,4180.58,3809.9,3641.7799999999997,3895.1,2982.62,2982.62,3427.1,3286.8199999999997,3259.22,3337.8199999999997,3283.46,3753.2599999999998,576.8199999999999,418.29999999999995,608.98,831.8199999999999,584.98,651.9399999999999,946.54,792.46,711.22,782.26,432.5799999999999,524.14,698.26,620.38,594.8199999999999,915.7,416.02,306.93999999999994,716.98,276.34,364.17999999999995,732.5799999999999,504.1,648.7,1124.02,354.94,470.61999999999995,276.34,714.5799999999999,697.8999999999999,640.18,524.38,758.62,966.0999999999999,836.02,3768.62,3385.22,3322.1,3439.58,3754.34,4079.18,3533.54,3277.94,3517.94,3124.3399999999997,3546.8599999999997,3874.7,4270.94,3573.02,3775.46,3984.0199999999995,2982.62,3362.06,3639.02,3349.7,3195.38,3639.02,3671.42,3199.22,3402.62,2997.62,3534.5,3363.74,2982.62,2997.62,3238.94,2997.62,3413.66,3097.8199999999997,3167.18,3249.5,3296.2999999999997,3391.8199999999997,2982.62,3414.02,3175.7,3124.3399999999997,3166.22,3247.58,2997.62,3299.06,3298.22,3167.66,3105.8599999999997,3918.62,4175.18,3114.2599999999998,3424.34,3296.66,3117.8599999999997,3059.66,3120.2599999999998,3246.98,3160.7,3133.3399999999997,3838.46,3237.14,3134.42,3195.02,3366.8599999999997,3223.58,2982.62,3573.74,3427.1,3901.94,3408.38,3524.42,3696.62,3651.74,3639.02,3782.42,3630.2599999999998,3112.46,3214.22,3306.02,3202.8199999999997,2982.62,3679.8199999999997,3351.5,4091.7799999999997,3884.18,3531.74,2997.62,3198.98,3482.7799999999997,3291.5,3242.54,3618.98,3389.42,3501.9799999999996,2982.62,3735.5,3323.66,3019.13,3228.17,2915.33,3317.6899999999996,4133.45,1595.93,618.39,634.23,467.07000000000005,526.23,321.87,666.51,459.87,259.47,410.07,367.83,1278.6299999999999,1358.1899999999998,1278.6299999999999,1358.1899999999998,361.23,374.06999999999994,623.3100000000001,705.87,427.23,676.35,541.23,511.94999999999993,664.35,534.51,494.54999999999995,515.6700000000001,429.39,526.35,403.71,473.79,549.27,389.90999999999997,723.27,517.23,411.99,483.99,646.95,738.75,402.15,779.9100000000001,533.0699999999999,403.71,677.91,836.19,593.6700000000001,593.6700000000001,471.39,296.19,471.39,613.95,565.8299999999999,219.51,595.23,576.15,429.03000000000003,744.87,632.55,435.03000000000003,303.03,305.55,466.23,306.87,399.39,485.19,888.63,305.55,387.63,272.19,357.03000000000003,294.15,904.95,294.03,552.75,286.71,288.63,1188.87,334.95000000000005,388.83,342.03,390.99,655.47,449.31,383.79,316.35,219.51,342.87,357.03,547.47,370.23,548.3100000000001,274.11,498.51,548.79,368.07,387.15,457.23,311.07,316.83,342.15,623.3100000000001,346.59,444.87,775.47,357.15,306.87,410.79,4666.73,3652.25,4922.69,4711.61,3744.41,4675.85,4538.69,4649.21,4761.049999999999,4711.61,3943.8499999999995,4617.889999999999,3826.49,3965.93,3655.97,1150.71,304.35,499.95000000000005,219.51,509.55,219.51,357.03000000000003,500.07000000000005,846.63,322.47,767.19,884.0699999999999,439.83000000000004,603.87,219.51,402.03,666.15,322.47,454.23,496.47,514.95,690.15,418.83,591.87,893.19,686.1899999999999,360.99,508.11,360.75,780.8699999999999,1345.2299999999998,509.07000000000005,526.23,733.47,567.99,234.51,339.99,274.47,500.79,334.95000000000005,518.0699999999999,234.51,296.31,301.95000000000005,482.43,234.51,439.59000000000003,658.95,370.23,378.27,378.27,532.35,532.35,342.15,448.35,663.03,1037.19,316.35,529.23,722.4300000000001,449.96,647.36,369.79999999999995,471.56,496.03999999999996,856.6400000000001,405.44000000000005,179.12,374.72,310.64,241.51999999999998,222.8,665.72,312.56,922.0400000000001,476.71999999999997,406.4,477.8,364.15999999999997,437.24,677.48,338.12,317.36,417.44,409.76,338.96,363.32000000000005,364.52,258.68,257.0,601.52,438.91999999999996,179.12,323.84,571.16,179.12,596.24,362.6,292.64,395.71999999999997,395.71999999999997,431.0,416.0,454.52,410.71999999999997,760.76,292.03999999999996,357.2,229.88,230.84,291.08,317.36,238.76,324.2,238.76,300.8,238.88,433.15999999999997,433.15999999999997,343.4,297.68,695.24,194.12,274.4,379.15999999999997,194.12,387.32,381.92,179.12,468.08000000000004,555.8,179.12,363.44,225.32,179.12,343.52,406.4,320.36,269.24,388.28,249.56,307.15999999999997,194.12,300.68,284.24,312.56,523.33,1408.81,1169.4099999999999,1069.33,1446.3700000000001,706.3299999999999,1874.8899999999999,1234.5700000000002,880.33,449.89,449.89,464.89,778.33,720.25,1073.05,868.09,1342.0900000000001,921.37,929.13,904.77,1130.13,1051.77,503.01,468.45,2385.09,376.77,930.93,468.45,376.77,1245.0900000000001,512.49,1220.85,1021.41,425.97,663.5699999999999,819.2099999999999,661.89,748.53,618.93,515.01,645.21,820.89,447.21,1042.17,1042.17,722.73,879.33,656.6099999999999,956.97,1508.25,801.09,1173.33,1994.31,1439.6699999999998,1507.3500000000001,802.47,705.87,725.91,1493.91,1816.1100000000001,1221.27,1326.15,3396.39,725.4300000000001,1601.0700000000002,1928.79,756.63,725.9100000000001,813.27,885.3900000000001,677.55,1305.51,1003.35,1946.55,2795.1099999999997,3084.91,2624.3500000000004,1402.63,1863.79,1088.01,3823.41,1221.69,1088.01,1909.53,1443.09,4093.6099999999997,3508.97,3508.97,1466.52,1799.52,692.04,839.04,1030.44,3517.16,1128.67,1128.67,899.47,423.07,515.95,386.83,642.91,411.15,392.54999999999995,451.11,545.43,322.47,436.47,376.13,217.72999999999996,654.17,273.89,344.81,332.21000000000004,297.53,247.97,220.85,266.21,272.57,809.81,288.53,263.45,341.21,220.85,283.13,306.28999999999996,384.40999999999997,302.33,347.33,405.04999999999995,150.29,441.40999999999997,407.44999999999993,237.64999999999998,405.04999999999995,411.53,523.01,373.37,292.61,476.69000000000005,297.53,472.25,288.28999999999996,312.89,367.96999999999997,477.28999999999996,226.37,287.33,331.72999999999996,165.29,223.60999999999999,437.57000000000005,316.01,246.64999999999998,449.56999999999994,390.65,240.16999999999996,530.09,430.49,253.25,493.61,562.25,428.68999999999994,478.13,263.09000000000003,277.25,650.69,321.65,332.21000000000004,288.53,435.77,352.49,440.3299999999999,487.25,251.21,390.65,309.04999999999995,1048.3700000000001,375.65,473.66999999999996,460.35,471.63,550.5899999999999,523.59,418.59000000000003,360.63,219.51,350.91,219.51,436.83,296.19,1909.81,1703.77,2144.17,364.96999999999997,295.73,283.85,1155.77,526.61,548.0899999999999,235.24999999999997,625.49,370.25,3177.43,3366.0699999999997,3329.83,446.96,342.08000000000004,311.36,278.84,515.48,3457.63,3112.99,3142.99,990.78,331.5,875.7,1228.2600000000002,1663.51,604.75,1924.99,2459.23,2785.3900000000003,1491.48,837.48,1182.1200000000001,3861.7200000000003,1754.29,3792.91,3467.83,3353.83,4699.8,638.72,212.93,1082.8899999999999,303.28999999999996,296.33000000000004,165.29,532.49,426.99,234.51,234.89,337.97,228.76999999999998,256.84999999999997,165.29,198.28999999999996,351.53,300.16999999999996,165.29,150.29,295.85,233.32999999999998,335.21,2749.07,2928.8300000000004,2872.31,2922.3500000000004,3151.07,585.6600000000001,466.86,724.8600000000001,581.22,508.14,3613.75,311.31,431.42999999999995,299.42999999999995,241.13,226.84999999999997,297.04999999999995,150.29,246.64999999999998,150.29,188.45,212.57,223.72999999999996,165.29,165.29,728.2099999999999,296.68999999999994,3236.59,179.12,392.18999999999994,285.27,219.51,261.08000000000004,852.64,455.17,339.17,323.57,234.17,583.37,520.01,621.77,389.80999999999995,349.49,334.37,673.01,452.69000000000005,530.57,371.09,493.85,367.13,400.25,376.73,342.16999999999996,712.13,379.85,400.25,293.09000000000003,350.93,882.17,150.29,353.57,303.40999999999997,950.93,245.81,335.69000000000005,577.49,220.84999999999997,192.29,316.01,674.09,307.97,272.93,379.61,630.24,1267.08,511.8,1379.07,2840.91,2982.75,2957.67,553.25,971.4499999999999,1184.09,314.93,565.73,292.25,1051.01,750.41,1200.05,662.1199999999999,618.3199999999999,326.6,376.88,308.72,864.27,994.88,446.31000000000006,306.87,325.35,257.90999999999997,219.51,287.90999999999997,329.07,219.51,219.51,219.51,219.51,655.35,658.83,2485.52,2592.8,2669.0,2485.52,2485.52,3705.56,2485.52,2615.24,2960.6,2747.31,2609.79,2747.31,2866.11,3040.47,1739.03,205.31,1532.6299999999999,2186.5099999999998,539.8700000000001,150.29,1515.6499999999999,1439.93,1134.5300000000002,851.6899999999999,3715.01,1446.05,165.29,748.37,1428.6499999999999,188.69,226.96999999999997,1152.65,150.29,2664.05,535.13,475.01,970.05,1056.33,562.24,566.08,629.6800000000001,754.12,635.32,582.88,593.9200000000001,1001.44,687.76,517.24,517.24,748.84,698.2,665.6800000000001,787.8899999999999,3358.01,1034.79,1179.51,1681.35,3231.17,3492.17,652.96,640.48,647.08,670.24,537.93,660.4499999999999,3348.29,3961.2200000000003,652.96,1243.21,1120.69,1064.07,2485.52,2640.92,2485.52,585.43,2485.52,3100.88,2485.52,3263.74,1352.7900000000002,1185.7800000000002,355.02,3244.6199999999994,448.5,972.44,479.84000000000003,1060.8300000000002,583.71,2871.71,2856.4700000000003,2869.79,2872.3100000000004,2884.67,1813.7,4152.5,344.83,4715.740000000001,1169.5],"xaxis":"x","yaxis":"y","type":"histogram","opacity":0.5}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Total Quoted Premium"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"count"}},"legend":{"title":{"text":"Rates"},"tracegroupgap":0},"title":{"text":"Distribution of New Rates"},"barmode":"overlay"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('5a76b573-c3ab-44f8-a287-57320c22c1c3');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+</section>
+<section id="predicted-impact" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="predicted-impact"><span class="header-section-number">3</span> Predicted Impact</h2>
+<p>By using the models currently in production within CAAPI, we can predict the impact this may have on conversion and gross written premium.</p>
+<div class="cell" data-execution_count="6">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import CAAPI predictors</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> joblib</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># import premium predictors</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>premium_predictor <span class="op">=</span> joblib.load(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/Users/kris.srithararajah/Documents/GitHub/data-science/pricing/axa/2022-07-optimisation-v3/predictors/premium_predictor/premium_predictor.dat"</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> joblib.load(</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/Users/kris.srithararajah/Documents/GitHub/data-science/pricing/axa/2022-07-optimisation-v3/predictors/premium_predictor/quantile_transformer.joblib"</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># import sale predictors</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>sale_predictor <span class="op">=</span> joblib.load(</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/Users/kris.srithararajah/Documents/GitHub/data-science/pricing/axa/2022-07-optimisation-v3/predictors/sale_predictor/sale_predictor.dat"</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># import commission predictor</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>current_commission_predictor <span class="op">=</span> joblib.load(</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/Users/kris.srithararajah/Documents/GitHub/data-science/pricing/axa/2022-07-optimisation-v3/predictors/optimisation/optimal_commission_predictor.dat"</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>current_commission_predictor_variables <span class="op">=</span> np.load(</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/Users/kris.srithararajah/Documents/GitHub/data-science/pricing/axa/2022-07-optimisation-v3/predictors/optimisation/optimal_commission_predictor_variables.npy"</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    allow_pickle<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/Users/kris.srithararajah/Documents/GitHub/data-science/pricing/axa/2022-07-optimisation-v3/predictors/optimisation/bins.json"</span>,</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"r"</span>,</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>) <span class="im">as</span> f:</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    current_commission_bins <span class="op">=</span> json.load(f)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="co"># process the payloads</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sqlalchemy <span class="im">import</span> except_all</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>to_remove <span class="op">=</span> [</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"quote_id"</span>,</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">"email"</span>,</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "created_at", we need this</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"quote_status"</span>,</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "sale", this is the target variable</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"commission"</span>,</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">"commission_inc_ipt"</span>,</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">"premium_inc_ipt"</span>,</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">"gwp"</span>,</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>    <span class="st">"gwp_inc_ipt"</span>,</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">"insurer"</span>,</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "treatment", we need this to check elasticity</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "probability_sale", this is the current prediction we can compare against</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 'applied_commission_rate',</span></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 'treatment',</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">"caapi_commission_adjustment"</span>,</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">"caapi_predicted_premium"</span>,</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    <span class="st">"caapi_probability_sale"</span>,</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>    <span class="st">"caapi_predicted_sale"</span>,</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>    <span class="st">"anonymous_id"</span>,</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>    <span class="st">"industry_id"</span>,  <span class="co"># same as industry</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">"postcode"</span>,  <span class="co"># not currently a required field so is mostly missing</span></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "premium", we won't have access to this in production but we need for the opt</span></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">"business_number"</span>,</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>    <span class="st">"system_source"</span>,</span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cover"</span>,</span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="kw">in</span> to_remove:</span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df.drop(columns<span class="op">=</span>to_remove)</span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a><span class="co"># fill utm variables and quote_launch_page nulls with "missing"</span></span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>missing_string_variables <span class="op">=</span> [</span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>    <span class="st">"utm_medium"</span>,</span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>    <span class="st">"utm_source"</span>,</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>    <span class="st">"utm_term"</span>,</span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>    <span class="st">"utm_campaign"</span>,</span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>    <span class="st">"quote_launch_page"</span>,</span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> missing_string_variables:</span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>    df[var] <span class="op">=</span> df[var].fillna(<span class="st">"MISSING"</span>)</span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a><span class="co"># fill numeric streaming nulls with -1</span></span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>missing_numeric_variables <span class="op">=</span> [<span class="st">"page_views_excl_quote_builder"</span>, <span class="st">"duration_in_s"</span>]</span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> missing_numeric_variables:</span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>    df[var] <span class="op">=</span> df[var].fillna(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="co"># remove where the following variables are missing (since there are so few)</span></span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[<span class="op">~</span>df[<span class="st">"segment"</span>].isna()]</span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[<span class="op">~</span>df[<span class="st">"segment_group"</span>].isna()]</span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[<span class="op">~</span>df[<span class="st">"has_active_insurance"</span>].isna()]</span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a><span class="co"># rename as per the predictor expectations of column names</span></span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.rename(</span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>{</span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a>        <span class="st">"applied_commission_rate"</span>: <span class="st">"commission_adjustment"</span>,</span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a>        <span class="st">"caapi_predicted_premium"</span>: <span class="st">"predicted_premium"</span>,</span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a><span class="co"># run the data through the premium predictor (df1 will be the CURRENT prices)</span></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> df.copy()</span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df1[premium_predictor.feature_names_]</span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>y_pred_t <span class="op">=</span> premium_predictor.predict(X)</span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> t.inverse_transform(y_pred_t.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a>df1[<span class="st">"predicted_premium"</span>] <span class="op">=</span> y_pred</span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a><span class="co"># df2 will be the NEW prices</span></span>
+<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a><span class="co"># we don't need the predictor - just increase the predicted premium by the suggested %</span></span>
+<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a><span class="co"># first get the essentials insurer premium isolated</span></span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df.copy()</span>
+<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">"essential_premium"</span>] <span class="op">=</span> df2[<span class="st">"total_quoted_premium"</span>] <span class="op">-</span> df2[<span class="st">"net_premium"</span>]</span>
+<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a><span class="co"># work out the new total</span></span>
+<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">"new_total_quoted_premium"</span>] <span class="op">=</span> df2[<span class="st">"essential_premium"</span>] <span class="op">+</span> df2[<span class="st">"new_net_premium"</span>]</span>
+<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a><span class="co"># work out the % difference</span></span>
+<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a>difference <span class="op">=</span> df2[<span class="st">"new_total_quoted_premium"</span>] <span class="op">/</span> df2[<span class="st">"total_quoted_premium"</span>]</span>
+<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a><span class="co"># apply this difference to the predicted premium</span></span>
+<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">"predicted_premium"</span>] <span class="op">=</span> df1[<span class="st">"predicted_premium"</span>] <span class="op">*</span> difference</span>
+<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a><span class="co"># also apply the new net rates</span></span>
+<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">"net_premium"</span>] <span class="op">=</span> df2[<span class="st">"new_net_premium"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>It’s first important to note that CAAPI works as follows:</p>
+<ul>
+<li>The quote details are passed to the <em>premium_predictor</em> which, as the name suggests, predicts the premium. This is because CAAPI is called before the rating-engine.</li>
+<li>The predicted premium is then grouped into some bins (for example; £0-£100, £100-£200, £200-£300, etc).</li>
+<li>The grouped predicted premium is fed into the <em>commission_adjuster</em> which sets a commission adjustment of 30%, 35% or 40%.</li>
+<li>All of the above are then finally fed into a <em>conversion_predictor</em> which predicts the likelihood of a purchase.</li>
+</ul>
+<p>Thus, if the Beazley rate changes do not take a customer from one predicted premium bin into the next, the models will <em>not know the records have changed</em> and therefore <em>the conversion prediction will not change</em>.</p>
+<p>For example, consider a customer that is currently quoted £120 for cyber cover. They are placed into the £100-£200 bin. Suppose their conversion is predicted to be 20%. If the new rates are such that they are now quoted £199, they are <em>still</em> in the £100-£200 bin and their conversion prediction is still 20%. In real life, this will not be the case and the customer will see a difference in price that will negatively affect their propensity to purchase.</p>
+<p>To account for this, we make some simple assumptions.</p>
+<div class="cell" data-execution_count="7">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bin the premiums</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df1[<span class="st">"predicted_premium_group"</span>] <span class="op">=</span> pd.cut(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    df1[<span class="st">"predicted_premium"</span>], bins<span class="op">=</span>current_commission_bins</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>).astype(<span class="bu">str</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">"predicted_premium_group"</span>] <span class="op">=</span> pd.cut(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    df2[<span class="st">"predicted_premium"</span>], bins<span class="op">=</span>current_commission_bins</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>).astype(<span class="bu">str</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># re-run current commission_adjustments; needs one-hot encoding</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>df_for_opt <span class="op">=</span> df1.copy()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>df_for_opt <span class="op">=</span> df_for_opt.drop(columns<span class="op">=</span>[<span class="st">"quote_id"</span>])</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>cat_cols <span class="op">=</span> [x <span class="cf">for</span> x <span class="kw">in</span> df_for_opt.columns <span class="cf">if</span> df_for_opt[x].dtype <span class="op">==</span> <span class="st">"object"</span>]</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>df_for_opt <span class="op">=</span> pd.get_dummies(df_for_opt, columns<span class="op">=</span>cat_cols)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># remove missing columns (there will be a bunch of missing dummy columns)</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>missing_columns <span class="op">=</span> [</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    x <span class="cf">for</span> x <span class="kw">in</span> current_commission_predictor_variables <span class="cf">if</span> x <span class="kw">not</span> <span class="kw">in</span> df_for_opt.columns</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>missing_df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>missing_columns)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>df_for_opt <span class="op">=</span> df_for_opt.join(missing_df)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>df_for_opt <span class="op">=</span> df_for_opt.fillna(<span class="dv">0</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co"># predict commission adjustment</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>new_commission_adjustment <span class="op">=</span> current_commission_predictor.predict(</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    df_for_opt[current_commission_predictor_variables]</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co"># apply it</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>df1[<span class="st">"commission_adjustment"</span>] <span class="op">=</span> new_commission_adjustment</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>df1[<span class="st">"commission_adjustment"</span>] <span class="op">=</span> df1[<span class="st">"commission_adjustment"</span>].astype(<span class="bu">float</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co"># repeat for NEW rates</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>df_for_opt <span class="op">=</span> df2.copy()</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>df_for_opt <span class="op">=</span> df_for_opt.drop(columns<span class="op">=</span>[<span class="st">"quote_id"</span>])</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>cat_cols <span class="op">=</span> [x <span class="cf">for</span> x <span class="kw">in</span> df_for_opt.columns <span class="cf">if</span> df_for_opt[x].dtype <span class="op">==</span> <span class="st">"object"</span>]</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>df_for_opt <span class="op">=</span> pd.get_dummies(df_for_opt, columns<span class="op">=</span>cat_cols)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co"># remove missing columns (there will be a bunch of missing dummy columns)</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>missing_columns <span class="op">=</span> [</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    x <span class="cf">for</span> x <span class="kw">in</span> current_commission_predictor_variables <span class="cf">if</span> x <span class="kw">not</span> <span class="kw">in</span> df_for_opt.columns</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>missing_df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>missing_columns)</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>df_for_opt <span class="op">=</span> df_for_opt.join(missing_df)</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>df_for_opt <span class="op">=</span> df_for_opt.fillna(<span class="dv">0</span>)</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co"># predict commission adjustment</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>new_commission_adjustment <span class="op">=</span> current_commission_predictor.predict(</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    df_for_opt[current_commission_predictor_variables]</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="co"># apply it</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">"commission_adjustment"</span>] <span class="op">=</span> new_commission_adjustment</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">"commission_adjustment"</span>] <span class="op">=</span> df2[<span class="st">"commission_adjustment"</span>].astype(<span class="bu">float</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="results" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="results"><span class="header-section-number">4</span> Results</h2>
+<div class="cell" data-execution_count="8">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate new total premiums</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df1[<span class="st">"predicted_total_premium"</span>] <span class="op">=</span> df1[<span class="st">"predicted_premium"</span>] <span class="op">*</span> (</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span> <span class="op">+</span> df1[<span class="st">"commission_adjustment"</span>]</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># current sale predictions</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df1[sale_predictor.feature_names_]</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df1[<span class="st">"sale"</span>]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>y_proba <span class="op">=</span> sale_predictor.predict_proba(X)[:, <span class="dv">1</span>]</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>df1[<span class="st">"probability_sale"</span>] <span class="op">=</span> y_proba</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate new total premium</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">"new_total_quoted_premium"</span>] <span class="op">=</span> (</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    df2[<span class="st">"total_quoted_premium"</span>] <span class="op">-</span> df2[<span class="st">"net_premium"</span>] <span class="op">+</span> df2[<span class="st">"new_net_premium"</span>]</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">"predicted_total_premium"</span>] <span class="op">=</span> df2[<span class="st">"predicted_premium"</span>] <span class="op">*</span> (</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span> <span class="op">+</span> df2[<span class="st">"commission_adjustment"</span>]</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># NEW sale predictions</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df2[sale_predictor.feature_names_]</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df2[<span class="st">"sale"</span>]</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>y_proba <span class="op">=</span> sale_predictor.predict_proba(X)[:, <span class="dv">1</span>]</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">"probability_sale"</span>] <span class="op">=</span> y_proba</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="scenario-1-worst-case" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="scenario-1-worst-case"><span class="header-section-number">4.1</span> Scenario 1: Worst Case</h3>
+<p>For this, we assume that our customer are very price elastic. If the customer sees an increase in <code>total_net_premium</code> of over 25%, their conversion likelihood immediately drops to 0.</p>
+<div class="cell" data-execution_count="9">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change in predicted conversion</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> df1[[<span class="st">"predicted_total_premium"</span>]]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"new_predicted_total_premium"</span>] <span class="op">=</span> df2[[<span class="st">"predicted_total_premium"</span>]]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"diff"</span>] <span class="op">=</span> (df3[<span class="st">"new_predicted_total_premium"</span>]<span class="op">-</span>df3[<span class="st">"predicted_total_premium"</span>])<span class="op">/</span>df3[<span class="st">"predicted_total_premium"</span>]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"probability_sale"</span>] <span class="op">=</span> df1[<span class="st">"probability_sale"</span>]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"new_probability_sale"</span>] <span class="op">=</span> np.where(df3[<span class="st">"diff"</span>]<span class="op">&gt;</span><span class="fl">0.25</span>,<span class="dv">0</span>,df3[<span class="st">"probability_sale"</span>])</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>df3[[<span class="st">"probability_sale"</span>, <span class="st">"new_probability_sale"</span>]].mean()</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># change in predicted gwp</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"gwp"</span>] <span class="op">=</span> df3[<span class="st">"predicted_total_premium"</span>]<span class="op">*</span>df3[<span class="st">"probability_sale"</span>]</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"new_gwp"</span>] <span class="op">=</span> df3[<span class="st">"new_predicted_total_premium"</span>]<span class="op">*</span>df3[<span class="st">"new_probability_sale"</span>]</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># plot results</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>df_plot <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>df_plot[<span class="st">"Metric"</span>] <span class="op">=</span> [<span class="st">"Predicted Conversion"</span>, <span class="st">"Predicted GWP (per quote)"</span>]</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>df_plot[<span class="st">"Current"</span>] <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(df3[<span class="st">'probability_sale'</span>].mean()<span class="op">*</span><span class="dv">100</span>, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%"</span>, <span class="ss">f"£</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(df3[<span class="st">'gwp'</span>].mean(),<span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>]</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>df_plot[<span class="st">"New"</span>] <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(df3[<span class="st">'new_probability_sale'</span>].mean()<span class="op">*</span><span class="dv">100</span>, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%"</span>, <span class="ss">f"£</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(df3[<span class="st">'new_gwp'</span>].mean(),<span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>]</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>df_plot <span class="op">=</span> df_plot.set_index(<span class="st">"Metric"</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>df_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="75">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Current</th>
+      <th>New</th>
+    </tr>
+    <tr>
+      <th>Metric</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Predicted Conversion</th>
+      <td>20.19%</td>
+      <td>8.77%</td>
+    </tr>
+    <tr>
+      <th>Predicted GWP (per quote)</th>
+      <td>£80.72</td>
+      <td>£42.59</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="scenario-2-middle-of-the-road" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="scenario-2-middle-of-the-road"><span class="header-section-number">4.2</span> Scenario 2: Middle of the road</h3>
+<p>For every 1% the customer sees <code>total_net_premium</code> increase by, we decrease the conversion likelihood by 1%. Further, we assume that if the customer sees an increase of over 50%, their conversion likelihood immediately drops to 0.</p>
+<div class="cell" data-execution_count="10">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change in predicted conversion</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> df1[[<span class="st">"predicted_total_premium"</span>]]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"new_predicted_total_premium"</span>] <span class="op">=</span> df2[[<span class="st">"predicted_total_premium"</span>]]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"diff"</span>] <span class="op">=</span> (df3[<span class="st">"new_predicted_total_premium"</span>]<span class="op">-</span>df3[<span class="st">"predicted_total_premium"</span>])<span class="op">/</span>df3[<span class="st">"predicted_total_premium"</span>]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"probability_sale"</span>] <span class="op">=</span> df1[<span class="st">"probability_sale"</span>]</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"new_probability_sale"</span>] <span class="op">=</span> np.where(df3[<span class="st">"diff"</span>]<span class="op">&gt;</span><span class="fl">0.5</span>,<span class="dv">0</span>,df3[<span class="st">"probability_sale"</span>]<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>df3[<span class="st">"diff"</span>]))</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>df3[[<span class="st">"probability_sale"</span>, <span class="st">"new_probability_sale"</span>]].mean()</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># change in predicted gwp</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"gwp"</span>] <span class="op">=</span> df3[<span class="st">"predicted_total_premium"</span>]<span class="op">*</span>df3[<span class="st">"probability_sale"</span>]</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"new_gwp"</span>] <span class="op">=</span> df3[<span class="st">"new_predicted_total_premium"</span>]<span class="op">*</span>df3[<span class="st">"new_probability_sale"</span>]</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># plot results</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>df_plot <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>df_plot[<span class="st">"Metric"</span>] <span class="op">=</span> [<span class="st">"Predicted Conversion"</span>, <span class="st">"Predicted GWP (per quote)"</span>]</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>df_plot[<span class="st">"Current"</span>] <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(df3[<span class="st">'probability_sale'</span>].mean()<span class="op">*</span><span class="dv">100</span>, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%"</span>, <span class="ss">f"£</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(df3[<span class="st">'gwp'</span>].mean(),<span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>]</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>df_plot[<span class="st">"New"</span>] <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(df3[<span class="st">'new_probability_sale'</span>].mean()<span class="op">*</span><span class="dv">100</span>, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%"</span>, <span class="ss">f"£</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(df3[<span class="st">'new_gwp'</span>].mean(),<span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>]</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>df_plot <span class="op">=</span> df_plot.set_index(<span class="st">"Metric"</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>df_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="76">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Current</th>
+      <th>New</th>
+    </tr>
+    <tr>
+      <th>Metric</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Predicted Conversion</th>
+      <td>20.19%</td>
+      <td>11.52%</td>
+    </tr>
+    <tr>
+      <th>Predicted GWP (per quote)</th>
+      <td>£80.72</td>
+      <td>£55.19</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="scenario-3-best-case" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="scenario-3-best-case"><span class="header-section-number">4.3</span> Scenario 3: Best Case</h3>
+<p>If our customers are very inelastic, then they will not react to price until they see a 25% increase in price. After which, for every 1% the customer sees <code>total_net_premium</code> increase by, we decrease the conversion likelihood by 1%. Further, we assume that if the customer sees an increase of over 100%, their conversion likelihood immediately drops to 0.</p>
+<div class="cell" data-execution_count="11">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change in predicted conversion</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> df1[[<span class="st">"predicted_total_premium"</span>]]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"new_predicted_total_premium"</span>] <span class="op">=</span> df2[[<span class="st">"predicted_total_premium"</span>]]</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"diff"</span>] <span class="op">=</span> (df3[<span class="st">"new_predicted_total_premium"</span>]<span class="op">-</span>df3[<span class="st">"predicted_total_premium"</span>])<span class="op">/</span>df3[<span class="st">"predicted_total_premium"</span>]</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"probability_sale"</span>] <span class="op">=</span> df1[<span class="st">"probability_sale"</span>]</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"new_probability_sale"</span>] <span class="op">=</span> np.where(df3[<span class="st">"diff"</span>]<span class="op">&lt;</span><span class="fl">0.25</span>,df3[<span class="st">"probability_sale"</span>],df3[<span class="st">"probability_sale"</span>]<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>df3[<span class="st">"diff"</span>]))</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"new_probability_sale"</span>] <span class="op">=</span> np.where(df3[<span class="st">"diff"</span>]<span class="op">&gt;</span><span class="dv">1</span>,<span class="dv">0</span>,df3[<span class="st">"new_probability_sale"</span>])</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># change in predicted gwp</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"gwp"</span>] <span class="op">=</span> df3[<span class="st">"predicted_total_premium"</span>]<span class="op">*</span>df3[<span class="st">"probability_sale"</span>]</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"new_gwp"</span>] <span class="op">=</span> df3[<span class="st">"new_predicted_total_premium"</span>]<span class="op">*</span>df3[<span class="st">"new_probability_sale"</span>]</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># plot results</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>df_plot <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>df_plot[<span class="st">"Metric"</span>] <span class="op">=</span> [<span class="st">"Predicted Conversion"</span>, <span class="st">"Predicted GWP (per quote)"</span>]</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>df_plot[<span class="st">"Current"</span>] <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(df3[<span class="st">'probability_sale'</span>].mean()<span class="op">*</span><span class="dv">100</span>, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%"</span>, <span class="ss">f"£</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(df3[<span class="st">'gwp'</span>].mean(),<span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>]</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>df_plot[<span class="st">"New"</span>] <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(df3[<span class="st">'new_probability_sale'</span>].mean()<span class="op">*</span><span class="dv">100</span>, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%"</span>, <span class="ss">f"£</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(df3[<span class="st">'new_gwp'</span>].mean(),<span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>]</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>df_plot <span class="op">=</span> df_plot.set_index(<span class="st">"Metric"</span>)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>df_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="77">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Current</th>
+      <th>New</th>
+    </tr>
+    <tr>
+      <th>Metric</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Predicted Conversion</th>
+      <td>20.19%</td>
+      <td>13.54%</td>
+    </tr>
+    <tr>
+      <th>Predicted GWP (per quote)</th>
+      <td>£80.72</td>
+      <td>£65.71</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
